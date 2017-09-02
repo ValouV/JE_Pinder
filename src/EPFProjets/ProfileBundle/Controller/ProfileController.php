@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ProfileController extends Controller
 {
+
     public function indexAction()
     {
         return $this->render('EPFProjetsProfileBundle:Profile:index.html.twig');

@@ -21,7 +21,7 @@ framework:
     #serializer: { enable_annotations: true }
     templating:
         engines: ['twig']
-    default_locale: '%locale%'
+    default_locale: 'fr'
     trusted_hosts: ~
     session:
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
@@ -32,6 +32,7 @@ framework:
     assets: ~
     php_errors:
         log: true
+    translator:      { fallbacks: ["fr"] }
 
 # Twig Configuration
 twig:
@@ -78,6 +79,3 @@ fos_user:
     from_email:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
-    registration:
-        form:
-            type: AppBundle\Form\RegistrationType

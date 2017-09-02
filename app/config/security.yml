@@ -20,7 +20,7 @@ security:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
     main:
-        pattern:        ^/userprofile/
+        pattern:        ^/
         anonymous:      true
         provider:       main
         form_login:
