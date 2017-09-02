@@ -1,0 +1,14 @@
+{% extends "EPFProjetsProfileBundle::layout.html.twig" %}
+{% block body %}
+
+    <h1>Add Profile</h1>
+
+    <div class="well">
+    {{ form(form) }}
+    </div>
+
+    {% for message in app.session.flashbag.get('info') %}
+    <p>Message flash : {{ message }}</p>
+    {% endfor %}
+
+{% endblock %}

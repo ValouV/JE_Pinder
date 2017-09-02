@@ -1,0 +1,15 @@
+{% extends "EPFProjetsProfileBundle::layout.html.twig" %}
+{% block body %}
+    <h1>Profile {{ profile.id }}</h1>
+
+    {{ profile.description }}
+
+    {% if profile.image is not null %}
+    <img src="{{ profile.image.url }}" alt="{{ profile.image.alt }}">
+    {% endif %}
+
+    {% for message in app.session.flashbag.get('info') %}
+    <p>Message flash : {{ message }}</p>
+    {% endfor %}
+
+{% endblock %}

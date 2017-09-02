@@ -1,0 +1,19 @@
+profile_page_home:
+    path:     /
+    defaults: { _controller: EPFProjetsProfileBundle:Profile:index }
+
+profile_view:
+    path:      /{id}
+    defaults: { _controller: EPFProjetsProfileBundle:Profile:view }
+    requirements:
+        id: \d+
+
+profile_add:
+    path:      /add
+    defaults: { _controller: EPFProjetsProfileBundle:Profile:add }
+
+profile_edit:
+    path:      /edit/{id}
+    defaults: { _controller: EPFProjetsProfileBundle:Profile:edit }
+    requirements:
+        id: \d+
