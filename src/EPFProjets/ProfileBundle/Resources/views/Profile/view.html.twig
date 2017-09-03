@@ -1,20 +1,30 @@
 {% extends "EPFProjetsProfileBundle::layout.html.twig" %}
 {% block body %}
-    <h1>Profile {{ profile.id }}</h1>
 
-    {{ profile.description }}
-    <br>{{ profile.nbreVues }} nbre vues
-    <br>{{ profile.user.name }} nom
-    <br>{{ profile.user.surname }} surname
-    <br>{{ profile.user.sexe }} sexe
-    <br>{{ profile.user.getAge|trans }} yo
 
-    {% if profile.image is not null %}
-    <img src="{{ profile.image.url }}" alt="{{ profile.image.alt }}">
-    {% endif %}
+{% for message in app.session.flashbag.get('info') %}
+<p>Message flash : {{ message }}</p>
+{% endfor %}
 
-    {% for message in app.session.flashbag.get('info') %}
-    <p>Message flash : {{ message }}</p>
-    {% endfor %}
+<div class="col-md-3">
+<h1>{{ profile.user.name }} {{ profile.user.surname }}</h1>
+<p>
+{% if profile.image is not null %}
+<img src="{{ profile.image.url }}" alt="{{ profile.image.alt }}">
+{% endif %}
+</p>
+</br></br></br>LIKE BUTTON
+</div>
+
+<div class="col-md-9">
+<h2>Sexe</h2>
+<p>{{ profile.user.sexe }}</p>
+<h2>Age</h2>
+<p>{{ profile.user.getAge }}</p>
+<h2>Nombre de vues</h2>
+<p>{{ profile.nbreVues }} vues</p>
+<h2>Description</h2>
+<p>{{ profile.description }}</p>
+
 
 {% endblock %}

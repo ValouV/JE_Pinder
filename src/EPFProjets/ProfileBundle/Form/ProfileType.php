@@ -18,8 +18,9 @@ class ProfileType extends AbstractType
   {
     $builder
     ->add('description', TextareaType::class)
+    ->add('image',     ImageType::class)
     ->add('save',      SubmitType::class)
-    ->add('image',     ImageType::class);
+    ;
   }
 
   public function configureOptions(OptionsResolver $resolver)
