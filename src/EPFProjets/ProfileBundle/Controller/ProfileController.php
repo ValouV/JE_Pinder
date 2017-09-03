@@ -46,7 +46,6 @@ class ProfileController extends Controller
           $profile->setNbreVues($profile->getNbreVues()+1);
           $em = $this->getDoctrine()->getManager();
           $em->flush();
-
           return $this->render('EPFProjetsProfileBundle:Profile:view.html.twig' , array( 'profile' => $profile ));
     }
 
@@ -74,6 +73,22 @@ class ProfileController extends Controller
                   // À partir de maintenant, la variable $advert contient les valeurs entrées dans le formulaire par le visiteur
                   $form->handleRequest($request);
                   $profile->setUser($this->getUser());
+
+                  /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+                  $file = $profile->getImage()->getImageFile();
+
+                  // Generate a unique name for the file before saving it
+                  $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+                  $file->move(
+                                  $this->getParameter('images_directory'),
+                                  $fileName
+                              );
+
+                  // Update the 'brochure' property to store the PDF file name
+                  // instead of its contents
+                  $profile->getImage()->setImageFile($fileName);
+
                   // On vérifie que les valeurs entrées sont correctes
                   // (Nous verrons la validation des objets en détail dans le prochain chapitre)
                   if ($form->isValid()) {
@@ -107,10 +122,26 @@ class ProfileController extends Controller
 
         $repository= $this->getDoctrine()->getRepository('EPFProjetsProfileBundle:Profile');
         $profile = $repository->findOneBy(array( 'user' => $user ));
+
         $form = $this->get('form.factory')->create(ProfileType::class, $profile);
 
           if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
           {
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $profile->getImage()->getImageFile();
+
+            // Generate a unique name for the file before saving it
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+            $file->move(
+                            $this->getParameter('images_directory'),
+                            $fileName
+                        );
+
+            // Update the 'brochure' property to store the PDF file name
+            // instead of its contents
+            $profile->getImage()->setImageFile($fileName);
+
             $em = $this->getDoctrine()->getManager();
             $em->flush();
             $request->getSession()->getFlashBag()->add('notice', 'Profil bien modifié.');

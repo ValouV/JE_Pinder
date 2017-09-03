@@ -10,7 +10,7 @@
 <h1>{{ profile.user.name }} {{ profile.user.surname }}</h1>
 <p>
 {% if profile.image is not null %}
-<img src="{{ profile.image.url }}" alt="{{ profile.image.alt }}">
+<img src="{{ asset('uploads/' ~ profile.image.imageFile) }}" class="img-rounded" width="200" height="200">
 {% endif %}
 </p>
 </br></br></br>LIKE BUTTON
@@ -25,6 +25,6 @@
 <p>{{ profile.nbreVues }} vues</p>
 <h2>Description</h2>
 <p>{{ profile.description }}</p>
-
+</div>
 
 {% endblock %}
