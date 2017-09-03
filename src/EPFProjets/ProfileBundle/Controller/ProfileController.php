@@ -6,20 +6,35 @@ use EPFProjets\ProfileBundle\Entity\Profile;
 use EPFProjets\ProfileBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use EPFProjets\ProfileBundle\Form\ProfileType;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProfileController extends Controller
 {
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->render('EPFProjetsProfileBundle:Profile:index.html.twig');
+    //tests identification
+    $user = $this->getUser();
+    if (null === $user) {
+    $request->getSession()->getFlashBag()->add('error', 'Vous devez être identifiés pour voir cette page');
+    return $this->redirectToRoute('fos_user_security_login');
+    }
+
+
+    return $this->render('EPFProjetsProfileBundle:Profile:index.html.twig');
     }
 
     public function viewAction($id, Request $request)
     {
+      //tests identification
+      $user = $this->getUser();
+      if (null === $user) {
+      $request->getSession()->getFlashBag()->add('notice', 'Vous devez être identifiés pour voir cette page');
+      return $this->redirectToRoute('fos_user_security_login');
+      }
+
+
           $profile = $this->getDoctrine()
             ->getManager()
             ->find('EPFProjetsProfileBundle:Profile' , $id)
@@ -27,7 +42,10 @@ class ProfileController extends Controller
 
           if (null === $profile) {
                 throw new NotFoundHttpException("Le profil d'id ".$id." n'existe pas.");
-              }
+          }
+          $profile->setNbreVues($profile->getNbreVues()+1);
+          $em = $this->getDoctrine()->getManager();
+          $em->flush();
 
           return $this->render('EPFProjetsProfileBundle:Profile:view.html.twig' , array( 'profile' => $profile ));
     }
@@ -35,27 +53,27 @@ class ProfileController extends Controller
     public function addAction(Request $request)
       {
 
+        //tests identification
+        $user = $this->getUser();
+        if (null === $user) {
+        $request->getSession()->getFlashBag()->add('notice', 'Vous devez être identifiés pour voir cette page');
+        return $this->redirectToRoute('fos_user_security_login');
+        }
+
+
             // On crée un objet Advert
             $profile = new Profile();
 
             // On crée le FormBuilder grâce au service form factory
-            $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $profile);
+            $form = $this->get('form.factory')->create(ProfileType::class, $profile);
 
-            // On ajoute les champs de l'entité que l'on veut à notre formulaire
-            $formBuilder
-              ->add('description', TextareaType::class)
-              ->add('save',      SubmitType::class)
-            ;
-
-            // À partir du formBuilder, on génère le formulaire
-            $form = $formBuilder->getForm();
 
             // Si la requête est en POST
                 if ($request->isMethod('POST')) {
                   // On fait le lien Requête <-> Formulaire
                   // À partir de maintenant, la variable $advert contient les valeurs entrées dans le formulaire par le visiteur
                   $form->handleRequest($request);
-
+                  $profile->setUser($this->getUser());
                   // On vérifie que les valeurs entrées sont correctes
                   // (Nous verrons la validation des objets en détail dans le prochain chapitre)
                   if ($form->isValid()) {
@@ -74,18 +92,55 @@ class ProfileController extends Controller
         return $this->render('EPFProjetsProfileBundle:Profile:add.html.twig' , array('form' => $form->createView()) );
       }
 
-    public function editAction($id, Request $request)
+    public function editAction(Request $request)
       {
 
-          if ($request->isMethod('POST')) {
-            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
-            return $this->redirectToRoute('profile_view', array('id' => 5));
+        //tests identification
+        $user = $this->getUser();
+        if (null === $user) {
+        $request->getSession()->getFlashBag()->add('notice', 'Vous devez être identifiés pour voir cette page');
+        return $this->redirectToRoute('fos_user_security_login');
+        }
+
+        $profile = new Profile();
+
+        $repository= $this->getDoctrine()->getRepository('EPFProjetsProfileBundle:Profile');
+        $profile = $repository->findOneBy(array( 'user' => $user ));
+        $form = $this->get('form.factory')->create(ProfileType::class, $profile);
+
+          if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
+          {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('notice', 'Profil bien modifié.');
+            return $this->redirectToRoute('profile_view', array('id' => $profile->getId()));
           }
 
-          return $this->render('EPFProjetsProfileBundle:Profile:edit.html.twig' , array('id' => $id));
+        return $this->render('EPFProjetsProfileBundle:Profile:edit.html.twig' , array('form' => $form->createView()) );
       }
 
+    public function meAction(Request $request)
+      {
+
+        //tests identification
+        $user = $this->getUser();
+        if (null === $user) {
+        $request->getSession()->getFlashBag()->add('notice', 'Vous devez être identifiés pour voir cette page');
+        return $this->redirectToRoute('fos_user_security_login');
+        }
+
+        $profile = new Profile();
+
+        $repository= $this->getDoctrine()->getRepository('EPFProjetsProfileBundle:Profile');
+        $profile = $repository->findOneBy(array( 'user' => $user ));
+        if ($profile!=null){
+          return $this->redirectToRoute('profile_edit');
+        } else {
+          return $this->redirectToRoute('profile_add');
+        }
+
+      }
 }
 
 //redirection

@@ -12,6 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Profile
 {
+
+    /**
+    * @ORM\OneToOne(targetEntity="EPFProjets\UserBundle\Entity\User", cascade={"persist"})
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $user;
+
     /**
      * @var int
      *
@@ -37,9 +44,14 @@ class Profile
 
     /**
     * @ORM\OneToOne(targetEntity="EPFProjets\ProfileBundle\Entity\Image" , cascade={"persist"})
-    * @ORM\JoinColumn(nullable=false)
     */
     private $image;
+
+    public function __construct()
+      {
+        $this->nbreVues = 0;
+      }
+
 
     /**
      * Get id
@@ -97,5 +109,29 @@ class Profile
     public function getNbreVues()
     {
         return $this->nbreVues;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \EPFProjets\ProfileBundle\Entity\Image $image
+     *
+     * @return Profile
+     */
+    public function setImage(\EPFProjets\ProfileBundle\Entity\Image $image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \EPFProjets\ProfileBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

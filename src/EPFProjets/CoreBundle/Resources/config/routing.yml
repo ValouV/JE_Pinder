@@ -1,0 +1,3 @@
+epf_projets_core_homepage:
+    path:     /
+    defaults: { _controller: EPFProjetsCoreBundle:Default:index }

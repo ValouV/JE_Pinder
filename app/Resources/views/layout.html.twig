@@ -11,21 +11,19 @@
 
   <div id="custom-bootstrap-menu" class="navbar navbar-default " role="navigation">
       <div class="container-fluid">
-          <div class="navbar-header"><a class="navbar-brand" href={{ url('home') }}>Brand</a>
+          <div class="navbar-header"><a class="navbar-brand" href={{ url('epf_projets_core_homepage') }}>Brand</a>
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
               </button>
           </div>
           <div class="collapse navbar-collapse navbar-menubuilder">
               <ul class="nav navbar-nav navbar-left">
-                  <li><a href="{{ url('home') }}">Trouve ton junior</a>
-                  </li>
                   <li><a href="{{ url('fos_user_security_login') }}">Se connecter</a>
                   </li>
                   <li><a href="{{ url('fos_user_security_logout') }}">Se deconnecter</a>
                   </li>
                   <li><a href="{{ url('fos_user_registration_register') }}">S'enregistrer</a>
                   </li>
-                  <li><a href="{{ url('profile_add') }}">Add a profile</a>
+                  <li><a href="{{ url('me_profile') }}">Mon profil</a>
                   </li>
               </ul>
           </div>
@@ -40,7 +38,7 @@
     <div id="header" class="jumbotron">
       <h1>Trouve un junior</h1>
       <p>
-        Ce projet est créé par Valentin Vassas
+        Ce projet est en développement
       </p>
     </div>
 
@@ -56,8 +54,21 @@
 
     <hr>
 
-    <footer>
-      <p>test de footer</p>
+    <footer class="fixed-bottom">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    				<div class="copyright">
+    					© 2017, Valentin VASSAS tavu
+    				</div>
+    			</div>
+    			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    				<div class="design">
+    					 <a href="#">Trouve ton junior </a> | <a target="_blank" href="http://www.epfprojets-sceaux.com">Découvrez notre savoir faire</a>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
     </footer>
   </div>
 

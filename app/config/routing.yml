@@ -1,6 +1,10 @@
+epf_projets_core:
+    resource: "@EPFProjetsCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
 epf_projets_profile:
     resource: "@EPFProjetsProfileBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /profiles/
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
@@ -16,6 +20,3 @@ fos_user_register:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
-
-home:
-    path:   /

@@ -13,7 +13,9 @@ profile_add:
     defaults: { _controller: EPFProjetsProfileBundle:Profile:add }
 
 profile_edit:
-    path:      /edit/{id}
+    path:      /edit
     defaults: { _controller: EPFProjetsProfileBundle:Profile:edit }
-    requirements:
-        id: \d+
+    
+me_profile:
+    path:      /me
+    defaults: { _controller: EPFProjetsProfileBundle:Profile:me }

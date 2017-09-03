@@ -3,6 +3,11 @@
     <h1>Profile {{ profile.id }}</h1>
 
     {{ profile.description }}
+    <br>{{ profile.nbreVues }} nbre vues
+    <br>{{ profile.user.name }} nom
+    <br>{{ profile.user.surname }} surname
+    <br>{{ profile.user.sexe }} sexe
+    <br>{{ profile.user.getAge|trans }} yo
 
     {% if profile.image is not null %}
     <img src="{{ profile.image.url }}" alt="{{ profile.image.alt }}">

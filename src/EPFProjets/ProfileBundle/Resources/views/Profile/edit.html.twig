@@ -1,8 +1,9 @@
 {% extends "EPFProjetsProfileBundle::layout.html.twig" %}
 {% block body %}
 
-
-    Edit Profile {{ id }}
+<div class="well">
+{{ form(form) }}
+</div>
 
     {% for message in app.session.flashbag.get('info') %}
     <p>Message flash : {{ message }}</p>
