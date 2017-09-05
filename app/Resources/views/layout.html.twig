@@ -2,8 +2,9 @@
 <html>
 
 {% block stylesheets %}
-  {# On charge le CSS de bootstrap depuis le site directement #}
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 {% endblock %}
 
   <meta charset="utf-8">
@@ -17,14 +18,31 @@
           </div>
           <div class="collapse navbar-collapse navbar-menubuilder">
               <ul class="nav navbar-nav navbar-left">
-                  <li><a href="{{ url('fos_user_security_login') }}">Se connecter</a>
+                  <li><a href="{{ url('me_profile') }}">Mon profil</a>
                   </li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+
+                {% if app.user != null %}
+                <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="{{ url('me_profile') }}">{{app.user.name}}  {{app.user.surname}}<span class="caret"></span></a>
+                <ul class="dropdown-menu">
                   <li><a href="{{ url('fos_user_security_logout') }}">Se deconnecter</a>
+                  </li>
+                </ul>
+                </li>
+                {% else %}
+                <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href=/#>Connexion / Inscription<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ url('fos_user_security_login') }}">Se connecter</a>
                   </li>
                   <li><a href="{{ url('fos_user_registration_register') }}">S'enregistrer</a>
                   </li>
-                  <li><a href="{{ url('me_profile') }}">Mon profil</a>
-                  </li>
+                </ul>
+                </li>
+                {% endif %}
+
               </ul>
           </div>
       </div>
@@ -49,22 +67,6 @@
 
     <hr>
 
-    <footer class="fixed-bottom">
-    	<div class="container">
-    		<div class="row">
-    			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-    				<div class="copyright">
-    					© 2017, Valentin VASSAS tavu
-    				</div>
-    			</div>
-    			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-    				<div class="design">
-    					 <a href="#">Trouve ton junior </a> | <a target="_blank" href="http://www.epfprojets-sceaux.com">Découvrez notre savoir faire</a>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
-    </footer>
   </div>
 
   <!--{% block javascripts %}
@@ -72,6 +74,23 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   {% endblock %}-->
+
+  <footer class="fixed-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="copyright">
+            © 2017, Valentin VASSAS tavu
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="design">
+             <a href="#">Trouve ton junior </a> | <a target="_blank" href="http://www.epfprojets-sceaux.com">Découvrez notre savoir faire</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 
 </body>
 </html>

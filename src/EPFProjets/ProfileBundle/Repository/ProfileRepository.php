@@ -10,4 +10,17 @@ namespace EPFProjets\ProfileBundle\Repository;
  */
 class ProfileRepository extends \Doctrine\ORM\EntityRepository
 {
+
+  public function getPageAcc(){
+    $qb = $this->createQueryBuilder('a');
+
+    $qb -> orderBy('a.nbreVues', 'DESC')
+        -> setMaxResults( 10 );
+
+    return $qb
+    ->getQuery()
+    ->getResult()
+  ;
+  }
+
 }

@@ -29,6 +29,11 @@ class User extends BaseUser
     private $sexe;
 
     /**
+    * @ORM\Column(name="region", type="string", length=255, nullable=false)
+    */
+    private $region;
+
+    /**
     * @ORM\Column(name="name", type="string", length=255, nullable=false)
     */
     private $name;

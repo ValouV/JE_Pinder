@@ -1,4 +1,20 @@
 {% extends "::layout.html.twig" %}
 {% block body %}
-home page
+
+<div class="col-md-4">
+<div id="header" class="jumbotron">
+  <h3>Le premier site de rencontre entre juniors entrepreneurs</h3>
+  <p>
+    Rencontre les juniors entrepreneurs de ta région !
+  </p>
+</div>
+</div>
+
+<div class="col-md-8">
+<h1>Meilleurs profils</h1>
+{% for p in profiles %}
+            <p>{{ p.nbreVues }} vues         <a href="{{ path('profile_view', { 'id' : p.id })}}">{{ p.user.name }} {{ p.user.surname }}</a> </p>
+{% endfor %}
+</div>
+
 {% endblock %}
