@@ -6,6 +6,19 @@
 <p>Message flash : {{ message }}</p>
 {% endfor %}
 
+{% if buttonLike == 1 %}
+<a href="{{ path('profile_like', {'id':profile.id }) }}" class="btn btn-info btn-block" role="button">Je like ce profil</a>
+{% elseif buttonLike == 2 %}
+<button type="button" class="btn btn-primary btn-block disabled">Vous avez déjà liké ce profil</button>
+{% elseif buttonLike == 3 %}
+<button type="button" class="btn btn-primary btn-block disabled">Vous vous likez mutuellement avec cette personne</button>
+{% elseif buttonLike == 4 %}
+<button type="button" class="btn btn-primary btn-block disabled">Vous ne pouvez liker votre profile</button>
+{% else %}
+<button type="button" class="btn btn-primary btn-block disabled">Vous devez créer votre profile pour liker</button>
+{% endif %}
+
+
 <div class="col-md-3">
 <h1>{{ profile.user.name }} {{ profile.user.surname }}</h1>
 <p>
@@ -13,7 +26,8 @@
 <img src="{{ asset('uploads/' ~ profile.image.imageFile) }}" class="img-rounded" width="200" height="200">
 {% endif %}
 </p>
-</br></br></br>LIKE BUTTON
+
+
 </div>
 
 <div class="col-md-9">

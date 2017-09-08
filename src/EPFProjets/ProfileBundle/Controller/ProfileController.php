@@ -4,6 +4,7 @@ namespace EPFProjets\ProfileBundle\Controller;
 
 use EPFProjets\ProfileBundle\Entity\Profile;
 use EPFProjets\ProfileBundle\Entity\Image;
+use EPFProjets\ProfileBundle\Entity\JuLike;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use EPFProjets\ProfileBundle\Form\ProfileType;
@@ -46,7 +47,25 @@ class ProfileController extends Controller
           $profile->setNbreVues($profile->getNbreVues()+1);
           $em = $this->getDoctrine()->getManager();
           $em->flush();
-          return $this->render('EPFProjetsProfileBundle:Profile:view.html.twig' , array( 'profile' => $profile ));
+
+          $button = null;
+          $like = new JuLike();
+
+          $profileUser = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EPFProjetsProfileBundle:Profile')
+            ->findOneByUser($user)
+          ;
+          if($profileUser!=null){
+          $button = $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('EPFProjetsProfileBundle:JuLike')
+          ->getHasLiked($profileUser->getId(),$id);
+          }
+
+          return $this->render('EPFProjetsProfileBundle:Profile:view.html.twig' , array( 'profile' => $profile , 'buttonLike' => $button));
     }
 
     public function addAction(Request $request)
@@ -170,6 +189,64 @@ class ProfileController extends Controller
         } else {
           return $this->redirectToRoute('profile_add');
         }
+
+      }
+
+      public function likeAction($id, Request $request){
+        $user = $this->getUser();
+        if (null === $user) {
+        $request->getSession()->getFlashBag()->add('notice', 'Vous devez être identifiés pour liker un profile');
+        return $this->redirectToRoute('fos_user_security_login');
+        }
+
+        $profileUser = $this
+        ->getDoctrine()
+          ->getManager()
+          ->getRepository('EPFProjetsProfileBundle:Profile')
+          ->findOneByUser($user)
+        ;
+
+        $hasliked = $this
+        ->getDoctrine()
+        ->getManager()
+        ->getRepository('EPFProjetsProfileBundle:JuLike')
+        ->getHasLiked($profileUser->getId(),$id);
+
+        if($hasliked != 1){
+        return $this->redirectToRoute('profile_view', array('id' => $id));
+        }
+
+        $likes = $this
+        ->getDoctrine()
+        ->getManager()
+        ->getRepository('EPFProjetsProfileBundle:JuLike')
+        ->getWasLiked($profileUser->getId(), $id)
+        ;
+
+        if ($likes != null){
+          var_dump($likes);
+          foreach ($likes as $like) {
+            var_dump($like);
+            $like->setMutual(true);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($like);
+            $em->flush();
+            //send notification
+          }
+        } else {
+          $nLike = new JuLike();
+          $nLike->setIdLiker($profileUser->getId());
+          $nLike->setIdLiked($id);
+          $nLike->setMutual(false);
+          $nLike->setNotified(false);
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($nLike);
+          $em->flush();
+        }
+
+        return $this->redirectToRoute('profile_view', array('id' => $id));
+
+
 
       }
 }

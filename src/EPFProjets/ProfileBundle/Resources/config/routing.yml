@@ -15,7 +15,11 @@ profile_add:
 profile_edit:
     path:      /edit
     defaults: { _controller: EPFProjetsProfileBundle:Profile:edit }
-    
+
 me_profile:
     path:      /me
     defaults: { _controller: EPFProjetsProfileBundle:Profile:me }
+
+profile_like:
+    path:      /like/{id}
+    defaults: { _controller: EPFProjetsProfileBundle:Profile:like }
