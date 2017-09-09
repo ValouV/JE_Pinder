@@ -8,7 +8,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class UserType extends AbstractType
@@ -25,7 +24,14 @@ class UserType extends AbstractType
         'Autre' => 'NA',
     )))
         ->add('birthdate', BirthdayType::class, array('label' => 'Date de naissance'))
-        ->add('region', CountryType::class, array('label' => 'Pays'))
+        ->add('region', ChoiceType::class,array(
+    'choices'  => array(
+        'IDF' => 'IDF',
+        'Nord' => 'Nord',
+        'Est' => 'EST',
+        'Sud' => 'Sud',
+        'Ouest' => 'Ouest',
+    )))
         ;
     }
 
