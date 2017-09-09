@@ -1,3 +1,7 @@
+epf_projets_notification:
+    resource: "@EPFProjetsNotificationBundle/Resources/config/routing.yml"
+    prefix:   /notif/
+
 epf_projets_core:
     resource: "@EPFProjetsCoreBundle/Resources/config/routing.yml"
     prefix:   /

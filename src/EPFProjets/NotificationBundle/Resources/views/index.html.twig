@@ -1,0 +1,9 @@
+{% for notification in notifications %}
+<li class="divider"></li>
+<li>
+  <a href="{{ path('profile_view', {'id': notification.idProfile}) }}">
+    <strong>{{ notification.title }}</strong><br />
+    <small><em>{{ notification.description }}</em></small>
+  </a>
+</li>
+{% endfor %}

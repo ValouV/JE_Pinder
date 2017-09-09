@@ -1,0 +1,7 @@
+notif:
+    path:     /
+    defaults: { _controller: EPFProjetsNotificationBundle:Default:index }
+
+notif_seen:
+    path:     /vu
+    defaults: { _controller: EPFProjetsNotificationBundle:Default:vu }

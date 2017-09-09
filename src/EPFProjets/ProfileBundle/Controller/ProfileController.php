@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use EPFProjets\ProfileBundle\Form\ProfileType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use EPFProjets\NotificationBundle\Entity\Notification;
 
 class ProfileController extends Controller
 {
@@ -224,21 +225,40 @@ class ProfileController extends Controller
         ;
 
         if ($likes != null){
-          var_dump($likes);
           foreach ($likes as $like) {
-            var_dump($like);
             $like->setMutual(true);
+            $user2 = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EPFProjetsProfileBundle:Profile')
+            ->findOneById($id)
+            ->getUser();
+            $notif1 = new Notification;
+            $notif1->setidUser($user->getId());
+            $notif1->setTitle("Nouveau match");
+            $description = $user2->getName() . " " . $user2->getSurname() . " vous a liké aussi";
+            $notif1->setDescription($description);
+            $notif1->setIdProfile($id);
+
+            $notif2 = new Notification;
+            $notif2->setidUser($user2->getId());
+            $notif2->setTitle("Nouveau match");
+            $description2 = $user->getName() . " " . $user->getSurname() . " vous a liké aussi";
+            $notif2->setDescription($description2);
+            $notif2->setIdProfile($profileUser->getId());
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($like);
+            $em->persist($notif1);
+            $em->persist($notif2);
             $em->flush();
-            //send notification
+
           }
         } else {
           $nLike = new JuLike();
           $nLike->setIdLiker($profileUser->getId());
           $nLike->setIdLiked($id);
           $nLike->setMutual(false);
-          $nLike->setNotified(false);
           $em = $this->getDoctrine()->getManager();
           $em->persist($nLike);
           $em->flush();

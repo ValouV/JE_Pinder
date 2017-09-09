@@ -42,13 +42,6 @@ class JuLike
      */
     private $mutual;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="notified", type="boolean")
-     */
-    private $notified;
-
 
     /**
      * Get id
@@ -132,27 +125,4 @@ class JuLike
         return $this->mutual;
     }
 
-    /**
-     * Set notified
-     *
-     * @param boolean $notified
-     *
-     * @return JuLike
-     */
-    public function setNotified($notified)
-    {
-        $this->notified = $notified;
-
-        return $this;
-    }
-
-    /**
-     * Get notified
-     *
-     * @return boolean
-     */
-    public function getNotified()
-    {
-        return $this->notified;
-    }
 }

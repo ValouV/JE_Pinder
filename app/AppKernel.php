@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new EPFProjets\UserBundle\EPFProjetsUserBundle(),
             new EPFProjets\CoreBundle\EPFProjetsCoreBundle(),
+            new EPFProjets\NotificationBundle\EPFProjetsNotificationBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

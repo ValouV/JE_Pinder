@@ -22,8 +22,11 @@
                   </li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-
                 {% if app.user != null %}
+                <li class="dropdown">
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-pill label-danger count" style="border-radius:10px;"></span> <span class="glyphicon glyphicon-envelope" style="font-size:18px;"></span></a>
+                 <ul class="dropdown-menu notif"></ul>
+                </li>
                 <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="{{ url('me_profile') }}">{{app.user.name}}  {{app.user.surname}}<span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -94,3 +97,53 @@
 
 </body>
 </html>
+
+
+<script>
+$(document).ready(function(){
+
+ function load_unseen_notification(view = '')
+ {
+  $.ajax({
+   url:" {{ url('notif') }}",
+   method:"POST",
+   data:{view:view},
+   dataType:"json",
+   success:function(data)
+   {
+    $('.notif').html(data.notification);
+    if(data.unseen_notification > 0)
+    {
+     $('.count').html(data.unseen_notification);
+    }
+   }
+  });
+ }
+
+ function seen_notification(view = '')
+ {
+  $.ajax({
+   url:" {{ url('notif_seen') }}",
+   method:"POST",
+   data:{view:view},
+   dataType:"json",
+   success:function(data)
+   {
+    console.log("vu");
+   }
+  });
+ }
+
+ load_unseen_notification();
+
+ $(document).on('click', '.dropdown-toggle', function(){
+  $('.count').html('');
+  seen_notification('');
+ });
+
+ setInterval(function(){
+  load_unseen_notification();;
+ }, 5000);
+
+});
+</script>
