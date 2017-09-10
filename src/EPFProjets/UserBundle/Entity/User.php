@@ -30,11 +30,6 @@ class User extends BaseUser
     private $sexe;
 
     /**
-    * @ORM\Column(name="region", type="string", length=255, nullable=false)
-    */
-    private $region;
-
-    /**
     * @ORM\Column(name="name", type="string", length=255, nullable=false)
     */
     private $name;
@@ -161,28 +156,5 @@ class User extends BaseUser
       return $from->diff($to)->y;
     }
 
-    /**
-     * Set region
-     *
-     * @param string $region
-     *
-     * @return User
-     */
-    public function setRegion($region)
-    {
-        $this->region = $region;
-
-        return $this;
-    }
-
-    /**
-     * Get region
-     *
-     * @return string
-     */
-    public function getRegion()
-    {
-        return $this->region;
-    }
 
 }

@@ -23,4 +23,35 @@ class ProfileRepository extends \Doctrine\ORM\EntityRepository
   ;
   }
 
+  public function getRecherche($data){
+    $qb = $this->createQueryBuilder('a');
+    $qb ->innerJoin('a.user', 'c')
+        ->addSelect('c')
+        ;
+    if($data['sexe'] != '*'){
+    $qb -> where('c.sexe = :usexe')
+          -> setParameter('usexe', $data['sexe']);
+    }
+    if($data['region'] != '*'){
+    $qb -> where('a.region = :aregion')
+        -> setParameter('aregion', $data['region']);
+
+    }
+    if($data['name'] != ''){
+      $qb -> where('c.name = :uname')
+          -> setParameter('uname', $data['name']);
+    }
+    if($data['surname'] != ''){
+      $qb -> where('c.surname = :usurname')
+          -> setParameter('usurname', $data['surname']);
+    }
+    $qb -> orderBy('a.nbreVues', 'DESC');
+
+    return $qb
+    ->getQuery()
+    ->getResult()
+  ;
+  }
+
+
 }

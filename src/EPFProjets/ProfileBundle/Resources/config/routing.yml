@@ -23,3 +23,7 @@ me_profile:
 profile_like:
     path:      /like/{id}
     defaults: { _controller: EPFProjetsProfileBundle:Profile:like }
+
+profile_recherche:
+    path:      /recherche
+    defaults: { _controller: EPFProjetsProfileBundle:Profile:recherche }

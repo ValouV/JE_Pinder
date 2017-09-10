@@ -36,6 +36,13 @@ class Profile
     private $description;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="region", type="string", length=255, nullable=false)
+     */
+    private $region;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="nbreVues", type="integer")
@@ -133,5 +140,29 @@ class Profile
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \EPFProjets\UserBundle\Entity\User $user
+     *
+     * @return Profile
+     */
+    public function setUser(\EPFProjets\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \EPFProjets\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

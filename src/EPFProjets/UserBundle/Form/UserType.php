@@ -24,14 +24,6 @@ class UserType extends AbstractType
         'Autre' => 'NA',
     )))
         ->add('birthdate', BirthdayType::class, array('label' => 'Date de naissance'))
-        ->add('region', ChoiceType::class,array(
-    'choices'  => array(
-        'IDF' => 'IDF',
-        'Nord' => 'Nord',
-        'Est' => 'EST',
-        'Sud' => 'Sud',
-        'Ouest' => 'Ouest',
-    )))
         ;
     }
 

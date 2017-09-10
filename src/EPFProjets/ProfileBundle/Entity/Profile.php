@@ -36,6 +36,13 @@ class Profile
     private $description;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="region", type="string", length=255, nullable=false)
+     */
+    private $region;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="nbreVues", type="integer")
@@ -157,5 +164,29 @@ class Profile
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set region
+     *
+     * @param string $region
+     *
+     * @return Profile
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return string
+     */
+    public function getRegion()
+    {
+        return $this->region;
     }
 }

@@ -1,0 +1,18 @@
+{% extends "EPFProjetsProfileBundle::layout.html.twig" %}
+{% block body %}
+
+{% for message in app.session.flashbag.get('info') %}
+<p>Message flash : {{ message }}</p>
+{% endfor %}
+
+{% for p in results %}
+            <p>{{ p.nbreVues }} vues         <a href="{{ path('profile_view', { 'id' : p.id })}}">{{ p.user.name }} {{ p.user.surname }}</a> </p>
+{% endfor %}
+
+<div class="row">
+<div class="col-xs-10">
+{{ form(form) }}
+</div>
+</div>
+
+{% endblock %}

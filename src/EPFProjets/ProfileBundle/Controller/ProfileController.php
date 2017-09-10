@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use EPFProjets\ProfileBundle\Form\ProfileType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use EPFProjets\NotificationBundle\Entity\Notification;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProfileController extends Controller
 {
@@ -236,14 +239,14 @@ class ProfileController extends Controller
             $notif1 = new Notification;
             $notif1->setidUser($user->getId());
             $notif1->setTitle("Nouveau match");
-            $description = $user2->getName() . " " . $user2->getSurname() . " vous a liké aussi";
+            $description = $user2->getName() . " " . $user2->getSurname() . " vous a liké aussi.";
             $notif1->setDescription($description);
             $notif1->setIdProfile($id);
 
             $notif2 = new Notification;
             $notif2->setidUser($user2->getId());
             $notif2->setTitle("Nouveau match");
-            $description2 = $user->getName() . " " . $user->getSurname() . " vous a liké aussi";
+            $description2 = $user->getName() . " " . $user->getSurname() . " vous a liké aussi.";
             $notif2->setDescription($description2);
             $notif2->setIdProfile($profileUser->getId());
 
@@ -266,8 +269,52 @@ class ProfileController extends Controller
 
         return $this->redirectToRoute('profile_view', array('id' => $id));
 
+      }
 
+      public function rechercheAction(Request $request){
+        $results=null;
+        $form = $this->createFormBuilder()
+        ->add('sexe', ChoiceType::class,array(
+        'choices'  => array(
+        '' => '*',
+        'Masculin' => 'M',
+        'Feminin' => 'F',
+        'Autre' => 'NA',
+        )))
+        ->add('region', ChoiceType::class,array(
+        'choices'  => array(
+        '' => '*',
+        'IDF' => 'IDF',
+        'Nord' => 'Nord',
+        'Est' => 'EST',
+        'Sud' => 'Sud',
+        'Ouest' => 'Ouest',
+        )))
+        ->add('age', ChoiceType::class,array(
+        'choices'  => array(
+        '' => '*',
+        '0-19' => 0,
+        '20-39' => 20,
+        '40-59' => 40,
+        '60+' => 60,
+        )))
+        ->add('name', TextareaType::class, array('label' => 'Prénom', 'required' => false))
+        ->add('surname', TextareaType::class, array('label' => 'Nom de famille', 'required' => false))
+        ->add('save',      SubmitType::class, array('label' => 'Rechercher'))
+        ->getForm();
 
+        $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $data = $form->getData();
+
+                $results = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('EPFProjetsProfileBundle:Profile')
+                ->getRecherche($data);
+            }
+
+        return $this->render('EPFProjetsProfileBundle:Profile:recherche.html.twig' , array('form' => $form->createView() , 'results' => $results));
       }
 }
 
