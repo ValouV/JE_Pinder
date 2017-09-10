@@ -20,7 +20,7 @@ class DefaultController extends Controller
         ->getDoctrine()
         ->getManager()
         ->getRepository('EPFProjetsNotificationBundle:Notification')
-        ->findByIdUser($user->getId())
+        ->findBy(array('idUser' => $user->getId()), array('id' => 'DESC'))
       ;
 
       $unseen_notifications = $this

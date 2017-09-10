@@ -2,6 +2,7 @@
 
 namespace EPFProjets\ProfileBundle\Repository;
 
+use Symfony\Component\Validator\Constraints\DateTime;
 /**
  * ProfileRepository
  *
@@ -45,13 +46,54 @@ class ProfileRepository extends \Doctrine\ORM\EntityRepository
       $qb -> where('c.surname = :usurname')
           -> setParameter('usurname', $data['surname']);
     }
+
     $qb -> orderBy('a.nbreVues', 'DESC');
 
-    return $qb
+    $results = $qb
     ->getQuery()
     ->getResult()
   ;
+
+    if($data['age'] != '*'){
+
+      $nev = $this->yearstodate($data['age']);
+
+      $nev_dt = new \DateTime($nev);
+      $borne = $data['age']+20;
+
+      if($data['age']=='60'){$borne = $borne + 100;}
+      $anc = $this->yearstodate($borne);
+      $anc_dt = new \DateTime($anc);
+
+      $data = array();
+
+      foreach ($results as $result) {
+      $birthdate = $result->getUser()->getBirthdate();
+          if (($birthdate > $anc_dt) and ($birthdate < $nev_dt)) {
+            array_push($data, $result);
+          }
+      }
+  return $data;
   }
 
+  return $results = $qb
+  ->getQuery()
+  ->getResult()
+;
+
+
+  }
+
+  function yearstodate($years) {
+
+          $now = date("Y-m-d");
+          $now = explode('-', $now);
+          $year = $now[0];
+          $month   = $now[1];
+          $day  = $now[2];
+          $converted_year = $year - $years;
+          return $now = $converted_year."-".$month."-".$day;
+
+  }
 
 }
